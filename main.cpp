@@ -1,19 +1,24 @@
 #include "functions.h"
-#include <iostream>
 #include <exception>
+#include <iostream>
+
+using namespace DigitCleaner;
 
 int main() {
-    try {
-        int digitFreq[10] = {0};
-        std::string input = DigitCleaner::readInput();
-        auto [cleanedStr, digitCount] = DigitCleaner::removeDigits(input, digitFreq);
-        char maxDigit = DigitCleaner::mostFrequentDigit(digitFreq);
-        DigitCleaner::printResult(cleanedStr, digitCount, maxDigit);
-    }
-    catch (const std::exception& ex) {
-        std::cerr << "Помилка: " << ex.what() << std::endl;
-        return 1;
-    }
+  try { // Обробка виключень
+    int digitFreq[10] = {0}; // Масив для зберігання частоти кожної цифри
+    std::string input = readInput(); // Зчитування рядка з вводу користувача
+    std::string cleanedStr; // Рядок без цифр
+    int digitCount = 0;     // Кількість вилучених цифр
 
-    return 0;
+    removeDigits(input, cleanedStr, digitCount,
+                 digitFreq); // Видалення цифр з рядка та підрахунок їх частоти
+    char maxDigit = mostFrequentDigit(digitFreq); // Цифра з найбільшою частотою
+    printResult(cleanedStr, digitCount, maxDigit); // Виведення результатів
+  } catch (const std::exception &ex) { // Виведення повідомлення про помилку
+    std::cerr << "Помилка: " << ex.what() << std::endl;
+    return 1;
+  }
+
+  return 0;
 }
