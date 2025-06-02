@@ -1,11 +1,12 @@
 #include "functions.h"
 #include <iostream>
 #include <cctype>
-#include <stdexcept>  // для std::runtime_error (якщо потрібно)     
+#include <stdexcept>
 
-namespace DigitCleaner {
+namespace DigitCleaner 
 
-    std::string readInput() {// Функція для зчитування рядка з вводу
+
+    std::string readInput() {// Функція для зчитування рядка з вводу користувача
         std::string input;
         std::cout << "Введіть рядок: ";
         if (!std::getline(std::cin, input)) {
@@ -14,23 +15,21 @@ namespace DigitCleaner {
         return input;
     }
 
-    std::pair<std::string, int> removeDigits(const std::string& input, int freq[10]) {
-        std::string result;
-        int count = 0;
+    void removeDigits(const std::string& input, std::string& cleanedStr, int& count, int freq[10]) {// Функція для видалення цифр з рядка та підрахунку їх частоти
+        cleanedStr.clear();
+        count = 0;
 
         for (char ch : input) {
             if (std::isdigit(static_cast<unsigned char>(ch))) {
                 freq[ch - '0']++;
                 count++;
             } else {
-                result += ch;
+                cleanedStr += ch;
             }
         }
-
-        return { result, count };
     }
 
-    char mostFrequentDigit(const int freq[10]) { // Функція для знаходження цифри з найбільшою частотою
+    char mostFrequentDigit(const int freq[10]) {// Функція для знаходження цифри з найбільшою частотою
         int maxCount = 0;
         int maxDigit = 0;
 
@@ -44,7 +43,7 @@ namespace DigitCleaner {
         return static_cast<char>('0' + maxDigit);
     }
 
-    void printResult(const std::string& cleanedStr, int digitCount, char maxDigit) { // Функція для виведення результату
+    void printResult(const std::string& cleanedStr, int digitCount, char maxDigit) {// Функція для виведення результатів
         std::cout << "Рядок без цифр: " << cleanedStr << "\n";
         std::cout << "Кількість вилучених цифр: " << digitCount << "\n";
         std::cout << "Цифра з найбільшою частотою: " << maxDigit << "\n";
